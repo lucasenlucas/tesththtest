@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Acme&family=Bebas+Neue&family=Exo:ital,wght@0,100..900;1,100..900&family=Lilita+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <title>Ask Cat</title>
   <style>
     body {
       margin: 0;
-      font-family: "Lilita One", sans-serif;
+      font-family: "Lilita One";
       width: 749px;
       height: 657px;
       position: relative;
     }
-
     .container {
       display: grid;
       height: 100vh;
       place-items: center;
     }
-
     .text {
       position: absolute;
       top: 240px;
@@ -26,7 +27,6 @@
       color: #34495e;
       z-index: 1;
     }
-
     .button {
       position: absolute;
       right: -255px;
@@ -39,11 +39,12 @@
       color: white;
       z-index: 1;
     }
-
     .button:hover {
       cursor: pointer;
     }
-
+    .button-wrapper {
+      position: relative;
+    }
     input {
       position: absolute;
       height: 33px;
@@ -53,7 +54,14 @@
       border: 2px solid darkgoldenrod;
       border-radius: 10px;
     }
-
+    .meow {
+      position: absolute;
+      bottom: 180px;
+      left: 180px;
+      transform: rotate(-25deg);
+      opacity: 0;
+      color: #34495e;
+    }
     .thinking-takeover {
       width: 100%;
       height: 100vh;
@@ -61,7 +69,6 @@
       background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
       opacity: 0;
     }
-
     .cat {
       position: absolute;
       width: 300px;
@@ -70,7 +77,6 @@
       background-color: burlywood;
       border-radius: 140px 140px 0px 0px;
     }
-
     .ear {
       width: 0;
       height: 0;
@@ -78,17 +84,14 @@
       position: absolute;
       top: 10px;
     }
-
     .ear.left {
       border-right: 80px solid transparent;
       left: 10px;
     }
-
     .ear.right {
       border-left: 80px solid transparent;
       right: 10px;
     }
-
     .eye {
       width: 25px;
       height: 5px;
@@ -97,34 +100,132 @@
       position: absolute;
       top: 90px;
     }
-
     .eye.left {
       left: 100px;
     }
-
     .eye.right {
       right: 100px;
+    }
+    .bell {
+      position: absolute;
+      bottom: 20px;
+      right: 170px;
+    }
+    .base {
+      position: absolute;
+      width: 50px;
+      height: 25px;
+      border-radius: 25px 25px 0px 0px;
+      background-color: #f1c40f;
+    }
+    .stem {
+      width: 5px;
+      height: 15px;
+      background-color: #f1c40f;
+      position: absolute;
+      top: -10px;
+      left: 22px;
+    }
+    .top {
+      width: 16px;
+      height: 3px;
+      background-color: #f1c40f;
+      position: absolute;
+      top: -12px;
+      left: 17px;
+    }
+    .tip-screen {
+      position: absolute;
+      top: 150px;
+      font-family: monospace;
+      text-align: center;
+      opacity: 0;
+    }
+    .title {
+      font-size: 20px;
+    }
+    .title, .sub-title {
+      margin-bottom: 10px;
+    }
+    .tip {
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
+    /* Animations */
+    @keyframes turn-into-ball {
+      100% {
+        width: 10px;
+      }
+    }
+    @keyframes drop {
+      33% {
+        transform: translateY(203px);
+      }
+      66% {
+        transform: translateY(198px);
+      }
+      100% {
+        transform: translateY(203px);
+      }
+    }
+    @keyframes bell {
+      100% {
+        transform: translateY(5px);
+      }
+    }
+    @keyframes thinking {
+      0% {
+        opacity: 0;
+      }
+      33% {
+        opacity: 0.75;
+      }
+      66% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="tip-screen">
+      <div class="title">Subtotal $10</div>
+      <div class="sub-title">Add a tip:</div>
+      <div class="tip one">20% ($2.00)</div>
+      <div class="tip two">25% ($2.50)</div>
+      <div class="tip three">30% ($3.00)</div>
+    </div>
     <div class="text">Ask Cat anything you wish</div>
+    <div class="meow">meow</div>
+    <div class="thinking-takeover"></div>
     <div class="button-wrapper">
       <input type="text" id="name" name="name" />
       <div class="button">Ask Cat</div>
     </div>
     <div class="cat">
-      <div class="ear left"></div>
-      <div class="ear right"></div>
+      <div class="ear left">
+        <div class="inner"></div>
+      </div>
+      <div class="ear right">
+        <div class="inner"></div>
+      </div>
       <div class="eye left"></div>
       <div class="eye right"></div>
+      <div class="nose"></div>
     </div>
-    <div class="thinking-takeover"></div>
+    <div class="bell">
+      <div class="base"></div>
+      <div class="stem"></div>
+      <div class="top"></div>
+    </div>
   </div>
-
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
       const container = document.querySelector(".container");
       const button = document.querySelector(".button");
       const text = document.querySelector(".text");
